@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from database import models, session
 
-#아래는 서버 실행을 확인하기 위함, merge 후 삭제할 예정
-@app.get("/items/{item_id}")
-def read_item(item_id):
-    return {"item_id": item_id}
+models.Base.metadata.create_all(bind=session.engine)
+
+app = FastAPI()
