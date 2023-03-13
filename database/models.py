@@ -27,3 +27,4 @@ class User(Base, PrimaryKey):
     user_type       = Column(Enum(UserType), nullable=False, server_default='user')
     joined_at       = Column(DateTime, nullable=False, server_default=func.now())
     is_deleted      = Column(Boolean(), nullable=False, server_default=expression.false())
+
