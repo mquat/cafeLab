@@ -1,19 +1,12 @@
-import json
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SECRET_FILE = '/Users/meeryu/Development/cafeLab/secrets.json'
-secrets     = json.loads(open(SECRET_FILE).read())
-DB          = secrets['DB']
+from utils.config import settings
 
-SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{DB['user']}:{DB['password']}@{DB['host']}:{DB['port']}/{DB['database']}?charset=utf8"
+SQLALCHEMY_DATABASE_URL = settings.database_url
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, 
-    encoding = 'utf-8'
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
