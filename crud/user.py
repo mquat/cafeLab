@@ -1,31 +1,32 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from schemas.user import createUser
 
 from database.models import User
 
-from utils.auth import pwd_context
-
 def create_user(
     signup_info: createUser,
     db: Session
 ) -> User:
-    db_user = User(
+
+    db_obj = User(
         username        = signup_info.username,
-        password        = pwd_context.hash(signup_info.password),
+        password        = signup_info.password,
         name            = signup_info.name,
         registration_no = signup_info.registration_no,
         address         = signup_info.address,
         phone           = signup_info.phone,
         email           = signup_info.email,
-        user_type       = signup_info.user_type
+        user_type       = signup_info.user_type,
+        is_deleted      = signup_info.is_deleted
     )
 
-    db.add(db_user)
+    db.add(db_obj)
     db.commit()
-    db.refresh(db_user)
+    db.refresh(db_obj)
 
-    return db_user
+    return db_obj
 
 
 def get_duplicate_user(
@@ -33,10 +34,12 @@ def get_duplicate_user(
     db: Session
 ):
     user = db.query(User).filter(
-                            User.username == signup_info.username |
-                            User.email == signup_info.email |
-                            User.phone == signup_info.phone
+                            or_(
+                            User.username == signup_info.username,
+                            User.email == signup_info.email,
+                            User.phone == signup_info.phone)
                         ).first()
 
     return user
+
 
