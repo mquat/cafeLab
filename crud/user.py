@@ -40,6 +40,7 @@ def get_duplicate_user(
                             User.phone == signup_info.phone)
                         ).first()
 
-    return user
-
+    if user:
+        return True
+    return False
 

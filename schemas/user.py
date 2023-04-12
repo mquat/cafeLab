@@ -1,5 +1,8 @@
 import re
+
 from pydantic import BaseModel, validator
+
+from database.models import UserType
 
 class createUser(BaseModel):
     username: str
@@ -9,7 +12,7 @@ class createUser(BaseModel):
     address: str
     phone: str
     email: str
-    user_type = 'user'
+    user_type: UserType
     is_deleted: bool
 
     @validator('username')
