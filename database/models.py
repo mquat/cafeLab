@@ -28,7 +28,7 @@ user = Table('user', metadata,
 
 
 class User(object):
-    def __init__(self, username, password, name, registration_no, address, phone, email, user_type, joined_at, is_deleted):
+    def __init__(self, username, password, name, registration_no, address, phone, email, user_type, is_deleted):
         self.username        = username
         self.password        = password
         self.name            = name
@@ -37,7 +37,6 @@ class User(object):
         self.phone           = phone
         self.email           = email
         self.user_type       = user_type
-        self.joined_at       = joined_at
         self.is_deleted      = is_deleted
 
 
