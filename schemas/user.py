@@ -35,3 +35,4 @@ class createUser(BaseModel):
 
 class deleteUser(BaseModel):
     user_id: int
+

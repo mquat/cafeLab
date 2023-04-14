@@ -53,3 +53,4 @@ def delete_user(
     db.commit()
 
     return
+
