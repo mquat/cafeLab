@@ -33,4 +33,5 @@ class createUser(BaseModel):
             raise ValueError('유효하지 않은 이메일 양식입니다.')
         return v
 
-
+class deleteUser(BaseModel):
+    user_id: int

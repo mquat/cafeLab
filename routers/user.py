@@ -1,14 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 
 from database.session import get_db
 
-from schemas.user import createUser
+from schemas.user import createUser, deleteUser
 
 from utils.auth import get_password_hash
 
 from crud.user import (
     create_user,
-    get_duplicate_user
+    get_duplicate_user,
+    delete_user
 )
 
 router = APIRouter()
@@ -33,4 +34,12 @@ def signup(
     
     return {'message': 'SIGNUP SUCCESS!'}
 
+@router.delete("/delete", status_code=204, response_class=Response)
+def logout(
+    user_info: deleteUser,
+    db = db
+):
+    delete_user(user_info.user_id, db)
+
+    return
 

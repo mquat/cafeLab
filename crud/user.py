@@ -1,4 +1,4 @@
-from sqlalchemy import or_
+from sqlalchemy import or_, update
 from sqlalchemy.orm import Session
 
 from schemas.user import createUser
@@ -44,3 +44,12 @@ def get_duplicate_user(
         return True
     return False
 
+def delete_user(
+    user_id: int, 
+    db: Session
+)-> User:
+    db.execute(update(User).where(User.id == user_id).values(is_deleted=True))
+
+    db.commit()
+
+    return
