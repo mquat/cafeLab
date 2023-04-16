@@ -2,9 +2,12 @@ import re
 
 from pydantic import BaseModel, validator
 
+from typing import Union
+
 from database.models import UserType
 
 class createUser(BaseModel):
+    id: Union[int, None]
     username: str
     password: str
     name: str
@@ -13,6 +16,7 @@ class createUser(BaseModel):
     phone: str
     email: str
     user_type: UserType
+    joined_at: Union[str, None]
     is_deleted: bool
 
     @validator('username')
