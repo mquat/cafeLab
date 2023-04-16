@@ -22,7 +22,7 @@ jobs:
           pip install pytest-cov
       - name: Type hint check with mypy
         run: |
-          mypy src/
+          mypy crud/
         with:
           checkName: 'Type hint check with mypy'
         env:
