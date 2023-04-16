@@ -23,10 +23,6 @@ jobs:
       - name: Type hint check with mypy
         run: |
           mypy crud/
-        with:
-          checkName: 'Type hint check with mypy'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with pytest
         run: |
           pytest tests/initial_test.py --doctest-modules --junitxml=junit/test-results.xml
