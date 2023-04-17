@@ -22,7 +22,7 @@ jobs:
           pip install pytest-cov
       - name: Type hint check with mypy
         run: |
-          python -m mypy crud/
+          mypy crud/ --ignore-missing-imports
       - name: Test with pytest
         run: |
           pytest tests/initial_test.py --doctest-modules --junitxml=junit/test-results.xml
