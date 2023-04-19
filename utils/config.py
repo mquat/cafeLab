@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 from pydantic import BaseSettings
 
-from typing import Union, Optional
+from typing import Optional
 
 load_dotenv(verbose=True)
 
