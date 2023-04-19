@@ -1,4 +1,4 @@
-from sqlalchemy import or_
+from sqlalchemy import or_, update
 from sqlalchemy.orm import Session
 
 from schemas.user import createUser
@@ -11,6 +11,7 @@ def create_user(
 ) -> User:
 
     db_obj = User(
+        id              =signup_info.id,
         username        = signup_info.username,
         password        = signup_info.password,
         name            = signup_info.name,
@@ -19,6 +20,7 @@ def create_user(
         phone           = signup_info.phone,
         email           = signup_info.email,
         user_type       = signup_info.user_type,
+        joined_at       = signup_info.joined_at,
         is_deleted      = signup_info.is_deleted
     )
 
@@ -28,11 +30,10 @@ def create_user(
 
     return db_obj
 
-
 def get_duplicate_user(
     signup_info: createUser,
     db: Session
-):
+)-> bool:
     user = db.query(User).filter(
                             or_(
                             User.username == signup_info.username,
@@ -43,4 +44,14 @@ def get_duplicate_user(
     if user:
         return True
     return False
+
+def delete_user(
+    user_id: int, 
+    db: Session
+)-> None:
+    db.execute(update(User).where(User.id == user_id).values(is_deleted=True))
+
+    db.commit()
+
+    return
 
