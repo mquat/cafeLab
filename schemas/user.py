@@ -40,3 +40,7 @@ class createUser(BaseModel):
 class deleteUser(BaseModel):
     user_id: int
 
+class loginUser(BaseModel):
+    username: str
+    password: str
+

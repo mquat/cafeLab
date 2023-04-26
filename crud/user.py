@@ -1,8 +1,8 @@
-from sqlalchemy import or_, update
+from sqlalchemy import or_, update, and_
 from sqlalchemy.orm import Session
+from typing import Union
 
 from schemas.user import createUser
-
 from database.models import User
 
 def create_user(
@@ -54,4 +54,36 @@ def delete_user(
     db.commit()
 
     return
+
+def get_valid_user(
+    user_info: dict,
+    db: Session
+)-> bool:
+    user = db.query(User).where(
+        and_(
+            User.username == user_info['username'],
+            User.password == user_info['password'],
+            User.is_deleted == 0
+            )
+        ).first()
+
+    if user:
+        return True
+    return False
+
+def get_user_login_info_by_username(
+    username: str,
+    db: Session
+)-> Union[tuple, bool]:
+    user = db.query(User).with_entities(
+                            User.username,
+                            User.password
+                        ).where(
+                            User.username == username,
+                            User.is_deleted == False
+                        ).first()
+
+    if user:
+        return user
+    return False
 

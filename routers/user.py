@@ -2,14 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 
 from database.session import get_db
 
-from schemas.user import createUser, deleteUser
+from schemas.user import createUser, deleteUser, loginUser
 
-from utils.auth import get_password_hash
+from utils.auth import get_password_hash, verify_password, create_access_token
 
 from crud.user import (
     create_user,
     get_duplicate_user,
-    delete_user
+    delete_user,
+    get_user_login_info_by_username
 )
 
 router = APIRouter()
@@ -42,4 +43,19 @@ def logout(
     delete_user(user_info.user_id, db)
 
     return
+
+@router.post("/login", status_code=201)
+def login(
+    user_info: loginUser,
+    db = db
+):
+    current_user = get_user_login_info_by_username(user_info.username, db)
+    if not current_user:
+        raise HTTPException(status_code=401, detail='존재하지 않는 ID입니다.')
+
+    password = verify_password(user_info.password, current_user.password)
+    if not password:
+        raise HTTPException(status_code=401, detail='비밀번호가 일치하지 않습니다.')
+
+    return {'message': 'LOGIN SUCCESS!', 'token': create_access_token(dict(current_user))}
 
