@@ -10,7 +10,7 @@ from crud.user import (
     create_user,
     get_duplicate_user,
     delete_user,
-    get_user_login_info_by_username
+    get_valid_user_login_info_by_username
 )
 
 router = APIRouter()
@@ -49,7 +49,7 @@ def login(
     user_info: loginUser,
     db = db
 ):
-    current_user = get_user_login_info_by_username(user_info.username, db)
+    current_user = get_valid_user_login_info_by_username(user_info.username, db)
     if not current_user:
         raise HTTPException(status_code=401, detail='존재하지 않는 ID입니다.')
 

@@ -54,23 +54,7 @@ def delete_user(
 
     return
 
-def get_valid_user(
-    user_info: dict,
-    db: Session
-)-> bool:
-    user = db.query(User).where(
-        and_(
-            User.username == user_info['username'],
-            User.password == user_info['password'],
-            User.is_deleted == 0
-            )
-        ).first()
-
-    if user:
-        return True
-    return False
-
-def get_user_login_info_by_username(
+def get_valid_user_login_info_by_username(
     username: str,
     db: Session
 ):
@@ -82,7 +66,7 @@ def get_user_login_info_by_username(
                             User.is_deleted == False
                         ).first()
 
-    if user:
-        return user
-    return False
+    if not user:
+        return False
+    return user
 
