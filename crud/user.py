@@ -1,6 +1,5 @@
 from sqlalchemy import or_, update, and_
 from sqlalchemy.orm import Session
-from typing import Union
 
 from schemas.user import createUser
 from database.models import User
@@ -74,7 +73,7 @@ def get_valid_user(
 def get_user_login_info_by_username(
     username: str,
     db: Session
-)-> Union[tuple, bool]:
+):
     user = db.query(User).with_entities(
                             User.username,
                             User.password

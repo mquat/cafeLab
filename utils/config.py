@@ -16,7 +16,6 @@ class Settings(BaseSettings):
     mysql_database : Optional[str] = os.getenv("DB_DATABASE")
     secret_key     : Optional[str] = os.getenv("SECRET_KEY")
     algorithm      : Optional[str] = os.getenv("ALGORITHM")
-    expire_days    : Optional[str] = os.getenv('ACCESS_TOKEN_EXPIRE_DAYS')
 
     database_url = f"mysql+mysqlconnector://{mysql_username}:{mysql_password}@{mysql_host}:3306/{mysql_database}?charset=utf8"
 
