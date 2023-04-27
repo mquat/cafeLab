@@ -45,7 +45,7 @@ def get_duplicate_user(
         return True
     return False
 
-def delete_user(
+def update_user_is_deleted(
     user_id: int, 
     db: Session
 )-> None:
