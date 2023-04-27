@@ -63,3 +63,14 @@ def test_fail_signup_with_invalid_email():
     assert response.status_code == 422
     assert '유효하지 않은 이메일 양식' in response.text
 
+
+new_user_info['id'] = 1000
+
+def test_delete_user():
+    response = client.delete(
+        "/user/delete",
+        json = {'user_id': new_user_info['id']}
+    )
+
+    assert '' in response.text
+
