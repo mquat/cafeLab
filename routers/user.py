@@ -9,7 +9,7 @@ from utils.auth import get_password_hash, verify_password, create_access_token
 from crud.user import (
     create_user,
     get_duplicate_user,
-    delete_user,
+    update_user_is_deleted,
     get_valid_user_login_info_by_username
 )
 
@@ -36,11 +36,11 @@ def signup(
     return {'message': 'SIGNUP SUCCESS!'}
 
 @router.delete("/delete", status_code=204, response_class=Response)
-def logout(
+def delete_user(
     user_info: deleteUser,
     db = db
 ):
-    delete_user(user_info.user_id, db)
+    update_user_is_deleted(user_info.user_id, db)
 
     return
 
