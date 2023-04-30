@@ -1,4 +1,4 @@
-from sqlalchemy import or_, update, and_
+from sqlalchemy import or_, update
 from sqlalchemy.orm import Session
 
 from schemas.user import createUser
@@ -67,6 +67,6 @@ def get_valid_user_login_info_by_username(
                         ).first()
 
     if not user:
-        return False
+        return None
     return user
 

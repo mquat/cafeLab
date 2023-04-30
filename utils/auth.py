@@ -9,6 +9,7 @@ from database.session import get_db
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 db = Depends(get_db)
+ALGORITHM = 'HS256'
 
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
@@ -19,7 +20,7 @@ def verify_password(plain_password:str, hashed_password:str) -> bool:
 def create_access_token(payload:dict) -> str:
     expire = datetime.utcnow() + timedelta(days=3)
     payload.update({'exp': expire})
-    encoded_jwt = jwt.encode(payload, settings.secret_key, algorithm=settings.algorithm)
+    encoded_jwt = jwt.encode(payload, settings.secret_key, algorithm=ALGORITHM)
 
     return encoded_jwt
 
