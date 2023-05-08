@@ -54,12 +54,12 @@ def update_user_is_deleted(
 
     return
 
-def get_valid_user_login_info_by_username(
+def get_login_user_info_by_username(
     username: str,
     db: Session
 ):
     user = db.query(User).with_entities(
-                            User.username,
+                            User.id,
                             User.password
                         ).where(
                             User.username == username,

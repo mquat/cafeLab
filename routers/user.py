@@ -10,7 +10,7 @@ from crud.user import (
     create_user,
     get_duplicate_user,
     update_user_is_deleted,
-    get_valid_user_login_info_by_username
+    get_login_user_info_by_username
 )
 
 router = APIRouter()
@@ -49,15 +49,15 @@ def login(
     user_info: loginUser,
     db = db
 ):
-    current_user = get_valid_user_login_info_by_username(user_info.username, db)
+    current_user = get_login_user_info_by_username(user_info.username, db)
     if not current_user:
         raise HTTPException(status_code=401, detail='존재하지 않는 ID입니다.')
 
-    current_user_as_dict = dict(current_user._mapping)
-    password             = verify_password(user_info.password, current_user_as_dict['password'])
+    password = verify_password(user_info.password, current_user['password'])
     if not password:
         raise HTTPException(status_code=401, detail='비밀번호가 일치하지 않습니다.')
-    token = create_access_token(current_user_as_dict)
+
+    token = create_access_token({'id': current_user['id']})
 
     return {'message': 'LOGIN SUCCESS!', 'token': token}
 
