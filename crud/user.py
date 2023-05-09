@@ -70,3 +70,19 @@ def get_login_user_info_by_username(
         return None
     return user
 
+def get_user_info_by_user_id(
+    user_id: int,
+    db: Session
+):
+    user = db.query(User).with_entities(
+                            User.id,
+                            User.username
+                        ).where(
+                            User.id == user_id,
+                            User.is_deleted == False
+                        ).first()
+
+    if not user:
+        return None
+    return user
+

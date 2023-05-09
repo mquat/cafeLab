@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 
 from database.session import get_db
+from database.models import User
 
 from schemas.user import createUser, deleteUser, loginUser
 
-from utils.auth import get_password_hash, verify_password, create_access_token
+from utils.auth import get_password_hash, verify_password, create_access_token, get_logout_user
 
 from crud.user import (
     create_user,
@@ -60,4 +61,9 @@ def login(
     token = create_access_token({'id': current_user['id']})
 
     return {'message': 'LOGIN SUCCESS!', 'token': token}
+
+@router.post("/logout", status_code=201)
+def logout(user_info: User = Depends(get_logout_user)):
+
+    return {'message': 'LOGOUT SUCCESS!'}
 
