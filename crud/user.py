@@ -2,7 +2,6 @@ from sqlalchemy import or_, update
 from sqlalchemy.orm import Session
 
 from schemas.user import createUser
-
 from database.models import User
 
 def create_user(
@@ -54,4 +53,20 @@ def update_user_is_deleted(
     db.commit()
 
     return
+
+def get_login_user_info_by_username(
+    username: str,
+    db: Session
+):
+    user = db.query(User).with_entities(
+                            User.id,
+                            User.password
+                        ).where(
+                            User.username == username,
+                            User.is_deleted == False
+                        ).first()
+
+    if not user:
+        return None
+    return user
 
