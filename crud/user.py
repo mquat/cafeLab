@@ -123,8 +123,7 @@ def get_user_payload_by_token(
 
 def delete_authorization_token(
     user_authorization: str,
-    user_payload: dict,
-    expired_date: datetime
+    user_payload: dict
 )-> None:
 
     expired_date = user_payload.get('exp')

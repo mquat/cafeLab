@@ -41,7 +41,7 @@ def get_logout_user(authorization : Union[str, None] = Header(default=None), db 
         raise credentials_exception
 
     user_payload = get_user_payload_by_token(authorization, db)
-    delete_authorization_token(authorization, user_payload, db)
+    delete_authorization_token(authorization, user_payload)
 
     return
 
