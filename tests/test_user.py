@@ -67,10 +67,11 @@ def test_fail_signup_with_invalid_email():
 new_user_info['id'] = 1000
 
 def test_delete_user():
-    response = client.delete(
+    response = client.request(
+        "DELETE",
         "/user/delete",
         json = {'user_id': new_user_info['id']}
     )
-
+    assert response.status_code == 204
     assert '' in response.text
 
