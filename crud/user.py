@@ -1,8 +1,22 @@
+from datetime import datetime
+
+from jose import jwt, JWTError
 from sqlalchemy import or_, update
 from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
 
 from schemas.user import createUser
 from database.models import User
+from utils.config import settings, load_redis
+
+ALGORITHM = 'HS256'
+redis = load_redis()
+
+credentials_exception = HTTPException(
+    status_code = status.HTTP_401_UNAUTHORIZED,
+    detail = 'INVALID TOKEN',
+    headers = {'WWW-Authenticate': 'Bearer'}
+)
 
 def create_user(
     signup_info: createUser,
@@ -85,4 +99,38 @@ def get_user_info_by_user_id(
     if not user:
         return None
     return user
+
+def get_user_payload_by_token(
+    authorization: str,
+    db = Session
+)-> dict:
+    try:
+        payload = jwt.decode(authorization, settings.secret_key, algorithms=ALGORITHM)
+        user_id = payload.get('id')
+
+        if user_id is None:
+            raise credentials_exception
+
+        user = get_user_info_by_user_id(user_id, db)
+
+        if not user:
+            raise credentials_exception
+
+        return payload
+
+    except JWTError:
+        raise credentials_exception
+
+def delete_authorization_token(
+    user_authorization: str,
+    user_payload: dict,
+    expired_date: datetime
+)-> None:
+
+    expired_date = user_payload.get('exp')
+    current_date = int(datetime.utcnow().timestamp())
+
+    redis.setex(name=user_authorization, time=(expired_date-current_date), value='signed_out')
+
+    return
 
