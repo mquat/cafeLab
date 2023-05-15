@@ -129,6 +129,8 @@ def delete_authorization_token(
     expired_date = user_payload.get('exp')
     current_date = int(datetime.utcnow().timestamp())
 
+    if expired_date is None:
+        raise credentials_exception
     redis.setex(name=user_authorization, time=(expired_date-current_date), value='signed_out')
 
     return
