@@ -54,13 +54,11 @@ def login(
     if not current_user:
         raise HTTPException(status_code=401, detail='존재하지 않는 ID입니다.')
 
-    # password = verify_password(user_info.password, current_user['password'])
-    password = user_info.password
+    password = verify_password(user_info.password, current_user.password)
     if not password:
         raise HTTPException(status_code=401, detail='비밀번호가 일치하지 않습니다.')
 
-    # token = create_access_token({'id': current_user['id']})
-    token = create_access_token({'id': current_user[0]})
+    token = create_access_token({'id': current_user.id})
 
     return {'message': 'LOGIN SUCCESS!', 'token': token}
 
