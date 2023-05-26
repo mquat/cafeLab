@@ -66,6 +66,36 @@ def test_fail_signup_with_invalid_email():
 
 new_user_info['id'] = 1000
 
+def test_user_login():
+    login_user_info = {"username":"hyegyo", "password":"Fastapi123@"}
+    response = client.post(
+        "user/login",
+        json = login_user_info
+    )
+
+    assert response.status_code == 201
+    assert 'SUCCESS' in response.text
+
+def test_fail_login_with_invalid_username():
+    login_user_info = {"username":"hye", "password":"Fastapi123@"}
+    response = client.post(
+        "user/login",
+        json = login_user_info
+    )
+
+    assert response.status_code == 401
+    assert '존재하지 않는 ID' in response.text
+
+def test_fail_login_with_invalid_password():
+    login_user_info = {"username":"hyegyo", "password":"Fastapi1@"}
+    response = client.post(
+        "user/login",
+        json = login_user_info
+    )
+
+    assert response.status_code == 401
+    assert '비밀번호가 일치하지' in response.text
+
 def test_delete_user():
     response = client.request(
         "DELETE",
