@@ -1,4 +1,5 @@
 import os
+import redis
 
 from dotenv import load_dotenv
 
@@ -16,6 +17,9 @@ class Settings(BaseSettings):
     mysql_database : Optional[str] = os.getenv("DB_DATABASE")
     secret_key     : Optional[str] = os.getenv("SECRET_KEY")
     algorithm      : Optional[str] = os.getenv("ALGORITHM")
+    redis_host     : Optional[str] = os.getenv("REDIS_HOST")
+    redis_port     : Optional[str] = os.getenv("REDIS_PORT")
+    redis_database : Optional[str] = os.getenv("REDIS_DATABASE")
 
     database_url = f"mysql+mysqlconnector://{mysql_username}:{mysql_password}@{mysql_host}:3306/{mysql_database}?charset=utf8"
 
@@ -23,4 +27,11 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
+
+def load_redis():
+    return redis.Redis(
+        host = settings.redis_host,
+        port = settings.redis_port,
+        db   = settings.redis_database
+    )
 
