@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 
 from main import app
+from utils.auth import get_logout_user
 
 client = TestClient(app)
 
@@ -15,6 +16,11 @@ new_user_info = {
     "user_type" : "회원",
     "is_deleted": False
 }
+
+def mock_get_logout_user():
+    return {"Authorization": "Bearer test_token"}
+
+app.dependency_overrides[get_logout_user] = mock_get_logout_user
 
 def test_create_user():
     response = client.post(
@@ -95,6 +101,14 @@ def test_fail_login_with_invalid_password():
 
     assert response.status_code == 401
     assert '비밀번호가 일치하지' in response.text
+
+def test_user_logout():
+    response = client.post(
+        "user/logout",
+    )
+
+    assert response.status_code == 201
+    assert 'SUCCESS' in response.text
 
 def test_delete_user():
     response = client.request(
