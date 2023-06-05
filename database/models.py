@@ -2,7 +2,7 @@ from enum import Enum as enum_type
 
 from sqlalchemy     import Table, MetaData, Column, Integer, Enum, String, Boolean, DateTime
 from sqlalchemy.sql import func, expression
-from sqlalchemy.orm import registry
+from sqlalchemy.orm import registry, relationship
 
 mapper_registry = registry()
 
@@ -43,6 +43,32 @@ class User(object):
         self.joined_at       = joined_at
         self.is_deleted      = is_deleted
 
+cafe = Table('cafe', metadata,
+            Column('id', Integer, primary_key=True),
+            Column('cafename', String(255), nullable=False),
+            Column('address', String(255), nullable=False),
+            Column('phone', String(15), nullable=False, unique=True),
+            Column('lat', Integer, nullable=False),
+            Column('lng', Integer, nullable=False),
+            Column('parking', Boolean, nullable=False, server_default=expression.false()),
+            Column('wifi', Boolean, nullable=False, server_default=expression.false()),
+            Column('animal', Boolean, nullable=False, server_default=expression.false()),
+            Column('wheelchair', Boolean, nullable=False, server_default=expression.false())
+    )
+
+class Cafe(object):
+    def __init__(self, id, cafename, address, phone, lat, lng, parking, wifi, animal, wheelchair):
+        self.id         = id
+        self.cafename   = cafename
+        self.address    = address
+        self.phone      = phone
+        self.lat        = lat
+        self.lng        = lng
+        self.parking    = parking
+        self.wifi       = wifi
+        self.animal     = animal
+        self.wheelchair = wheelchair
 
 mapper_registry.map_imperatively(User, user)
+mapper_registry.map_imperatively(Cafe, cafe)
 
