@@ -2,7 +2,7 @@ from enum import Enum as enum_type
 
 from sqlalchemy     import Table, MetaData, Column, Integer, Enum, String, Boolean, DateTime
 from sqlalchemy.sql import func, expression
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 
