@@ -45,7 +45,7 @@ class User(object):
 
 cafe = Table('cafe', metadata,
             Column('id', Integer, primary_key=True),
-            Column('cafename', String(255), nullable=False),
+            Column('name', String(255), nullable=False),
             Column('address', String(255), nullable=False),
             Column('phone', String(15), nullable=False, unique=True),
             Column('lat', Integer, nullable=False),
@@ -57,9 +57,9 @@ cafe = Table('cafe', metadata,
     )
 
 class Cafe(object):
-    def __init__(self, id, cafename, address, phone, lat, lng, parking, wifi, animal, wheelchair):
+    def __init__(self, id, name, address, phone, lat, lng, parking, wifi, animal, wheelchair):
         self.id         = id
-        self.cafename   = cafename
+        self.name       = name
         self.address    = address
         self.phone      = phone
         self.lat        = lat
