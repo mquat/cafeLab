@@ -1,6 +1,6 @@
 from enum import Enum as enum_type
 
-from sqlalchemy     import Table, MetaData, Column, Integer, Enum, String, Boolean, DateTime
+from sqlalchemy     import Table, MetaData, Column, Integer, Enum, String, Boolean, DateTime, Float
 from sqlalchemy.sql import func, expression
 from sqlalchemy.orm import registry
 
@@ -47,9 +47,9 @@ cafe = Table('cafe', metadata,
             Column('id', Integer, primary_key=True),
             Column('name', String(255), nullable=False),
             Column('address', String(255), nullable=False),
-            Column('phone', String(15), nullable=False, unique=True),
-            Column('lat', Integer, nullable=False),
-            Column('lng', Integer, nullable=False),
+            Column('phone', String(15), nullable=False),
+            Column('lat', Float, nullable=False),
+            Column('lng', Float, nullable=False),
             Column('parking', Boolean, nullable=False, server_default=expression.false()),
             Column('wifi', Boolean, nullable=False, server_default=expression.false()),
             Column('animal', Boolean, nullable=False, server_default=expression.false()),
