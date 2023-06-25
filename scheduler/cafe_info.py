@@ -1,5 +1,7 @@
 import requests
 
+from fastapi import HTTPException
+
 from utils.config import settings
 from crud.cafe import get_total_cafe_name_list, update_new_cafe
 from database.session import get_db
@@ -15,7 +17,12 @@ def update_kakao_local_cafe():
     url = f"https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7"
     header = {'Authorization': 'KakaoAK ' + KAKAO_KEY}
 
-    result = requests.get(url, headers=header).json()
+    result = requests.get(url, headers=header)
+    if not result.status_code == 200:
+        raise HTTPException(status_code=400, detail='잘못된 요청입니다')
+    else:
+        result = result.json()
+
     kakao_cafe_list = result['documents']
 
     new_cafe_list = []
