@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     redis_host     : Optional[str] = os.getenv("REDIS_HOST")
     redis_port     : Optional[str] = os.getenv("REDIS_PORT")
     redis_database : Optional[str] = os.getenv("REDIS_DATABASE")
+    kakao_api_key  : Optional[str] = os.getenv("KAKAO_API_KEY")
+    google_api_key : Optional[str] = os.getenv("GOOGLE_API_KEY")
 
     database_url = f"mysql+mysqlconnector://{mysql_username}:{mysql_password}@{mysql_host}:3306/{mysql_database}?charset=utf8"
 
