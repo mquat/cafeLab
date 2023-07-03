@@ -17,10 +17,10 @@ def update_new_cafe(
         phone = new_cafe['phone'],
         lat = new_cafe['x'],
         lng = new_cafe['y'],
-        parking = False,
-        wifi = False,
-        animal = False,
-        wheelchair = False
+        parking = new_cafe['facility_info']['parking'],
+        wifi = new_cafe['facility_info']['wifi'],
+        animal = new_cafe['facility_info']['animal'],
+        wheelchair = new_cafe['facility_info']['wheelchair']
     )
 
     db.add(cafe)
