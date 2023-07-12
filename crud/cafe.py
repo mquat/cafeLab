@@ -1,5 +1,9 @@
+from sqlalchemy import between, and_
 from sqlalchemy.orm import Session
+
 from database.models import Cafe
+
+from utils.location import calculate_bound
 
 def get_total_cafe_name_list(db = Session) -> Cafe:
     cafe_list = db.query(Cafe).with_entities(Cafe.name).all()
@@ -28,4 +32,20 @@ def update_new_cafe(
     db.refresh(cafe)
 
     return
+
+def get_cafe_list_by_location(
+    lat: float,
+    lng: float,
+    db: Session
+):
+    bounds = calculate_bound(lat, lng)
+
+    cafe_list = db.query(Cafe).where(
+                    and_(
+                        between(Cafe.lat, bounds['min_lat'], bounds['max_lat']),
+                        between(Cafe.lng, bounds['min_lng'], bounds['max_lng'])
+                    )
+                ).all()
+
+    return cafe_list
 
