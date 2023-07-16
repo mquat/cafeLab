@@ -10,7 +10,6 @@ from utils.config import settings
 from crud.cafe import get_total_cafe_name_list, update_new_cafe
 from database.session import get_db
 
-GOOGLE_KEY = settings.google_api_key
 KAKAO_KEY  = settings.kakao_api_key
 
 def get_facility_info(facility_url: str) -> dict:
